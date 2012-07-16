@@ -310,10 +310,10 @@ module Mongoid
     end
 
     def subtree(params={})
-      nodes = if params[:order_by]
-                [self] + (descendants.order_by(params[:order_by]))
+      nodes = if params[:sort]
+                [self] + (descendants.sort(params[:sort]))
               else
-                descendants_and_self
+                descendants_and_self.sort{|x, y| x.parent_ids <=> y.parent_ids}
               end
       arrange_to_subtree(nodes)
     end
