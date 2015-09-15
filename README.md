@@ -4,9 +4,10 @@ A tree structure for Mongoid documents using the materialized path pattern
 
 ## Requirements
 
-* mongoid (~> 3.0)
+* mongoid (~> 4.0)
 
-For a mongoid 2.x compatible version, please use mongoid-tree 0.7.x!
+For a mongoid 3.x compatible version, please use mongoid-tree 1.0.x,
+for a mongoid 2.x compatible version, please use mongoid-tree 0.7.x.
 
 
 ## Install
@@ -17,12 +18,15 @@ To install mongoid_tree, simply add it to your Gemfile:
 
 In order to get the latest development version of mongoid-tree:
 
-    gem 'mongoid-tree', :git => 'git://github.com/benedikt/mongoid-tree', :require => 'mongoid/tree'
+    gem 'mongoid-tree', :git => 'git://github.com/benedikt/mongoid-tree'
 
-You might want to remove the `:require => 'mongoid/tree'` option and explicitly `require 'mongoid/tree'` where needed and finally run
+You might want to add `:require => nil` option and explicitly `require 'mongoid/tree'` where needed and finally run
 
     bundle install
 
+### Upgrade from mongoid-tree 1.x
+
+To fix issues with the ordering of ancestors, mongoid-tree 2.0 introduces a new `depth` field to the documents that include the `Mongoid::Tree` module. In case your project uses its own `depth` field, you can now rely on mongoid-tree to handle this.
 
 ## Usage
 
@@ -212,4 +216,4 @@ If you like mongoid-tree and want to support the development, I would appreciate
 
 ## Copyright
 
-Copyright (c) 2010-2012 Benedikt Deicke. See LICENSE for details.
+Copyright (c) 2010-2013 Benedikt Deicke. See LICENSE for details.

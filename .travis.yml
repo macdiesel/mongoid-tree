@@ -3,10 +3,14 @@ before_install:
   - gem --version
 language: ruby
 rvm:
-  - ruby-head
   - 1.9.3
-  - jruby-19mode
-  - rbx-19mode
+  - 2.0.0
+  - 2.1.0
+  - jruby
+  - jruby-head
+  - rbx-2
+services:
+  - mongodb
 matrix:
   allow_failures:
     - rvm: ruby-head

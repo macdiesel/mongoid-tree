@@ -19,7 +19,7 @@ describe Mongoid::Tree::Traversal do
     end
 
     it "should default to depth_first traversal" do
-      subject.should_receive(:depth_first_traversal)
+      expect(subject).to receive(:depth_first_traversal)
       subject.traverse {}
     end
   end
@@ -42,12 +42,12 @@ describe Mongoid::Tree::Traversal do
       it "should traverse correctly" do
         result = []
         node(:node1).traverse(:depth_first) { |node| result << node }
-        result.collect { |n| n.name.to_sym }.should == [:node1, :node2, :node3, :node4, :node5, :node6, :node7]
+        expect(result.collect { |n| n.name.to_sym }).to eq([:node1, :node2, :node3, :node4, :node5, :node6, :node7])
       end
 
       it "should return and array containing the results of the block for each node" do
         result = node(:node1).traverse(:depth_first) { |n| n.name.to_sym }
-        result.should == [:node1, :node2, :node3, :node4, :node5, :node6, :node7]
+        expect(result).to eq([:node1, :node2, :node3, :node4, :node5, :node6, :node7])
       end
     end
 
@@ -69,7 +69,7 @@ describe Mongoid::Tree::Traversal do
 
       it "should traverse correctly" do
         result = node(:node1).traverse(:depth_first) { |n| n.name.to_sym }
-        result.should == [:node1, :node2, :node3, :node4, :node5, :node6, :node7]
+        expect(result).to eq([:node1, :node2, :node3, :node4, :node5, :node6, :node7])
       end
     end
 
@@ -92,12 +92,12 @@ describe Mongoid::Tree::Traversal do
       it 'should iterate through the nodes in the correct order' do
         result = []
         node(:node1).traverse(:depth_first) { |node| result << node }
-        result.collect { |n| n.name.to_sym }.should == [:node1, :node2, :node3, :node4, :node5, :node6, :node7]
+        expect(result.collect { |n| n.name.to_sym }).to eq([:node1, :node2, :node3, :node4, :node5, :node6, :node7])
       end
 
       it 'should return the nodes in the correct order' do
         result = node(:node1).traverse(:depth_first)
-        result.collect { |n| n.name.to_sym }.should == [:node1, :node2, :node3, :node4, :node5, :node6, :node7]
+        expect(result.collect { |n| n.name.to_sym }).to eq([:node1, :node2, :node3, :node4, :node5, :node6, :node7])
       end
 
     end
@@ -121,12 +121,12 @@ describe Mongoid::Tree::Traversal do
     it "should traverse correctly" do
       result = []
       node(:node1).traverse(:breadth_first) { |n| result << n }
-      result.collect { |n| n.name.to_sym }.should == [:node1, :node2, :node3, :node4, :node5, :node6, :node7]
+      expect(result.collect { |n| n.name.to_sym }).to eq([:node1, :node2, :node3, :node4, :node5, :node6, :node7])
     end
 
     it "should return and array containing the results of the block for each node" do
       result = node(:node1).traverse(:breadth_first) { |n| n.name.to_sym }
-      result.should == [:node1, :node2, :node3, :node4, :node5, :node6, :node7]
+      expect(result).to eq([:node1, :node2, :node3, :node4, :node5, :node6, :node7])
     end
 
   end
@@ -141,34 +141,34 @@ describe Mongoid::Tree::Traversal do
       @root1 = node(:root1)
       @root2 = node(:root2)
 
-      Node.stub(:roots).and_return [@root1, @root2]
+      allow(Node).to receive(:roots).and_return [@root1, @root2]
     end
 
-    it 'grabs each root' do
-      Node.should_receive(:roots).and_return []
+    it 'should grab each root' do
+      expect(Node).to receive(:roots).and_return []
 
-      Node.traverse.should == []
+      expect(Node.traverse).to eq([])
     end
 
-    it 'defaults the "type" arg to :depth_first' do
-      @root1.should_receive(:traverse).with(:depth_first).and_return([])
-      @root2.should_receive(:traverse).with(:depth_first).and_return([])
+    it 'should default the "type" arg to :depth_first' do
+      expect(@root1).to receive(:traverse).with(:depth_first).and_return([])
+      expect(@root2).to receive(:traverse).with(:depth_first).and_return([])
 
-      Node.traverse.should == []
+      expect(Node.traverse).to eq([])
     end
 
-    it 'traverses each root' do
-      @root1.should_receive(:traverse).and_return([1, 2])
-      @root2.should_receive(:traverse).and_return([3, 4])
+    it 'should traverse each root' do
+      expect(@root1).to receive(:traverse).and_return([1, 2])
+      expect(@root2).to receive(:traverse).and_return([3, 4])
 
-      Node.traverse.should == [1, 2, 3, 4]
+      expect(Node.traverse).to eq([1, 2, 3, 4])
     end
 
     describe 'when the "type" arg is :breadth_first' do
 
-      it 'traverses breadth-first' do
-        @root1.should_receive(:traverse).with(:breadth_first).and_return([])
-        @root2.should_receive(:traverse).with(:breadth_first).and_return([])
+      it 'should traverse breadth-first' do
+        expect(@root1).to receive(:traverse).with(:breadth_first).and_return([])
+        expect(@root2).to receive(:traverse).with(:breadth_first).and_return([])
 
         Node.traverse :breadth_first
       end
